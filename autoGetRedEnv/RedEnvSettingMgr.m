@@ -78,7 +78,15 @@ static NSString * const kRedEnvSettingSecret = @"波若波罗密";
         return;
     }
     NSString *path = [docDir stringByAppendingPathComponent:RedEnvSettingFileName];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    
+    NSMutableDictionary *dict = nil;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    }
+    else {
+        dict = [[NSMutableDictionary alloc] init];
+    }
+    
     [dict setObject:value forKey:key];
     [dict writeToFile:path atomically:YES];
 }
